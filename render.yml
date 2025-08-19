@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: django-backend
+    env: python
+    buildCommand: |
+      cd backend &&
+      pip install -r requirements.txt &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate
+    startCommand: cd backend && gunicorn core.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SUPABASE_DB_NAME
+        fromDatabase:
+          name: supabase
+          property: database
+      - key: SUPABASE_DB_USER
+        fromDatabase:
+          name: supabase
+          property: user
+      - key: SUPABASE_DB_PASSWORD
+        fromDatabase:
+          name: supabase
+          property: password
+      - key: SUPABASE_DB_HOST
+        fromDatabase:
+          name: supabase
+          property: host
+      - key: SUPABASE_DB_PORT
+        fromDatabase:
+          name: supabase
+          property: port
+
+  - type: web
+    name: react-frontend
+    env: static
+    buildCommand: |
+      cd frontend &&
+      npm ci &&
+      npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://tu-backend.onrender.com/api
