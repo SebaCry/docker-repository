@@ -5,9 +5,6 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - CORS_ALLOW_ALL_ORIGINS=True
     volumes:
       - ./backend:/app
     depends_on:
@@ -20,4 +17,4 @@ services:
     ports:
       - "3000:80"
     environment:
-      - VITE_API_URL=http://localhost:8000/api
+      - VITE_API_URL=https://docker-repository-i1te.onrender.com/api
