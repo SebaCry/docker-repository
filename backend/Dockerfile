@@ -2,18 +2,23 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
+# Instalar dependencias Python
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Copiar código
 COPY . .
 
-RUN mkdir -p staticfiles && python manage.py collectstatic --noinput
+# Solo crear el directorio para staticfiles
+RUN mkdir -p staticfiles
 
 EXPOSE 8000
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application" ]
+# Hacer collectstatic y luego iniciar gunicorn
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 core.wsgi:application"]
