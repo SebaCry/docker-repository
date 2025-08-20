@@ -135,7 +135,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOW_ALL_ORIGINS = config("CORS_ALLOW_ALL_ORIGINS", default=False, cast=bool)
-CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="", cast=lambda v: [s.strip() for s in v.split(",") if s])
+CORS_ALLOWED_ORIGINS = ["https://docker-repository-1-exzw.onrender.com","http://localhost:5173"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://docker-repository-1-exzw.onrender.com",
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
