@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=lambda v: [s.strip() for s in v.split(",") if s])
+ALLOWED_HOSTS = ['docker-repository-i1te.onrender.com', 'localhost', '127.0.0.1', '*']
 
 
 # Application definition
